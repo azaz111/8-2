@@ -32,50 +32,34 @@ sleep 2
 # Третий этап -----------------------------------------------------
 cd
 chmod 777 trans.sh
+chmod 777 Copi1.sh
+chmod 777 Copi.sh
 mkdir /aws32 
 screen -dmS mount rclone mount --daemon aws32: /aws32 
 # Четвкртый --------------------------------------------------
 cd
 # Монтируем диск 1
-parted /dev/nvme1n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
-mkfs.xfs -f /dev/nvme1n1
-partprobe /dev/nvme1n1
+parted /dev/nvme0n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
+mkfs.xfs -f /dev/nvme0n1
+partprobe /dev/nvme0n1
 mkdir /disk1
-mount /dev/nvme1n1 /disk1
+mount /dev/nvme0n1 /disk1
 # Монтируем диск 2
-parted /dev/nvme2n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
-mkfs.xfs -f /dev/nvme2n1
-partprobe /dev/nvme2n1
+parted /dev/xvdb --script mklabel gpt mkpart xfspart xfs 0% 100%
+mkfs.xfs -f /dev/xvdb
+partprobe /dev/xvdb
 mkdir /disk2
-mount /dev/nvme2n1 /disk2
-# Монтируем диск 3
-mkdir /disk3
-mount /dev/nvme2n1 /disk3
-# Монтируем диск 4
-parted /dev/nvme4n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
-mkfs.xfs -f /dev/nvme4n1
-partprobe /dev/nvme4n1
-mkdir /disk4
-mount /dev/nvme2n1 /disk4
+mount /dev/xvdb /disk2
+
 # Создаем дериктории на дисках
-cd /disk4
-mkdir osnova
-cd /disk4
-mkdir osnova1
-cd /disk4 
-mkdir beckup
-cd /disk4 
-mkdir beckup1
 cd /disk1
-mkdir vid1 
+mkdir video
+cd /disk1
+mkdir vid1
+cd /disk2
+mkdir video1
 cd /disk2
 mkdir vid2
-cd /disk3
-mkdir video1
-cd /disk3
-mkdir video
-cd /disk4
-mkdir video
 cd /root
 # Качаем плоттер и устанавливаем 
 cd
@@ -121,8 +105,10 @@ screen -dmS otpravka_na_serv ./otpravka.sh
  
 ./dir_akka.sh
 # ЗАпуск Плотера ------------------------------
-screen -dmS videorender1 ./chia-plotter/build/chia_plot -n -1 -r 12 -u 256 -t /disk1/vid1/ -2 /disk2/vid2/ -d /disk3/video/ -f b8e1d57e3e2dbb40ac8f2b257b762d05fcfc5b79c32a22255424644b7d183daa7c454624783f2d959c02eb1d2a4ba3a3 -p 91ea997633345082b15f83b957449180037030b6b7485f07ed4ee7558d08d3efbccf2c3d68ba724f5b3a8281a0055e27
-screen -dmS videorender2 ./chia-plotter/build/chia_plot -n -1 -r 12 -u 256 -t /disk1/vid1/ -2 /disk2/vid2/ -d /disk3/video1/ -f b8e1d57e3e2dbb40ac8f2b257b762d05fcfc5b79c32a22255424644b7d183daa7c454624783f2d959c02eb1d2a4ba3a3 -p 91ea997633345082b15f83b957449180037030b6b7485f07ed4ee7558d08d3efbccf2c3d68ba724f5b3a8281a0055e27
+screen -dmS Copi1 ./Copi1.sh
+screen -dmS Copi ./Copi.sh
+screen -dmS videorender1 ./chia-plotter/build/chia_plot -n -1 -r 8 -u 256 -t /disk1/vid1/ -2 /disk2/vid2/ -d /disk2/video/ -f b8e1d57e3e2dbb40ac8f2b257b762d05fcfc5b79c32a22255424644b7d183daa7c454624783f2d959c02eb1d2a4ba3a3 -p 91ea997633345082b15f83b957449180037030b6b7485f07ed4ee7558d08d3efbccf2c3d68ba724f5b3a8281a0055e27
+screen -dmS videorender2 ./chia-plotter/build/chia_plot -n -1 -r 8 -u 256 -t /disk1/vid1/ -2 /disk2/vid2/ -d /disk2/video1/ -f b8e1d57e3e2dbb40ac8f2b257b762d05fcfc5b79c32a22255424644b7d183daa7c454624783f2d959c02eb1d2a4ba3a3 -p 91ea997633345082b15f83b957449180037030b6b7485f07ed4ee7558d08d3efbccf2c3d68ba724f5b3a8281a0055e27
 screen -dmS trans ./trans.sh
 screen -dmS otchet python3 awsstat.py
 screen -r trans
