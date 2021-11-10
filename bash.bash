@@ -69,7 +69,7 @@ kakoi=$(sed -n '2,2p' < aknomber.txt) # .txt
 kuda=$(sed -n '3,3p' < aknomber.txt)
 
 # - deriktoriya usera
-echo -e "#!/usr/bin/expect\nsleep 270\nspawn ssh -oStrictHostKeyChecking=no root@45.79.151.232" > /root/dir_user.sh
+echo -e "#!/usr/bin/expect\nsleep 260\nspawn ssh -oStrictHostKeyChecking=no root@45.79.151.232" > /root/dir_user.sh
 echo 'expect "password"' >> /root/dir_user.sh
 echo 'send "XUVLWMX5TEGDCHDU\r"' >> /root/dir_user.sh
 echo 'expect -re "# $"' >> /root/dir_user.sh
@@ -79,7 +79,7 @@ chmod 777 dir_user.sh
 screen -dmS puti1 ./dir_user.sh 
 
 # - deriktoriya akka
-echo -e "#!/usr/bin/expect\nsleep 270\nspawn ssh -oStrictHostKeyChecking=no root@45.79.151.232" > /root/dir_akka.sh
+echo -e "#!/usr/bin/expect\nsleep 280\nspawn ssh -oStrictHostKeyChecking=no root@45.79.151.232" > /root/dir_akka.sh
 echo 'expect "password"' >> /root/dir_akka.sh
 echo 'send "XUVLWMX5TEGDCHDU\r"' >> /root/dir_akka.sh
 echo 'expect -re "# $"' >> /root/dir_akka.sh
