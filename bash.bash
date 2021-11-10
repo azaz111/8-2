@@ -51,8 +51,6 @@ mkdir video
 cd /disk1
 mkdir vid1
 cd /disk1
-mkdir video1
-cd /disk1
 mkdir vid2
 cd /root
 # Качаем плоттер и устанавливаем 
