@@ -39,12 +39,12 @@ screen -dmS mount rclone mount --daemon aws32: /aws32
 # Четвкртый --------------------------------------------------
 cd
 # Монтируем диск 1
-parted /dev/nvme0n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
-mkfs.xfs -f /dev/nvme0n1
-partprobe /dev/nvme0n1
+# Монтируем диск 1
+parted /dev/nvme1n1 --script mklabel gpt mkpart xfspart xfs 0% 100%
+mkfs.xfs -f /dev/nvme1n1
+partprobe /dev/nvme1n1
 mkdir /disk1
-mount /dev/nvme0n1 /disk1
-
+mount /dev/nvme1n1 /disk1
 # Создаем дериктории на дисках
 cd /disk1
 mkdir video
